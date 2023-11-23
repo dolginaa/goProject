@@ -1,0 +1,15 @@
+version: "3.3"
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: schedule
+      POSTGRES_USER: schedule_user
+      POSTGRES_PASSWORD: user
+    ports:
+      - "5432:5432"
