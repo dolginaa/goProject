@@ -15,12 +15,12 @@ service Schedule {
   };
   rpc GetDaySchedule (GetDayScheduleRequest) returns (GetDayScheduleResponse) {
     option (google.api.http) = {
-      get: "/v1/day-schedule/{date}"
+      get: "/v1/day-schedule"
     };
   };
   rpc GetTask (GetTaskRequest) returns (GetTaskResponse) {
     option (google.api.http) = {
-      get: "/v1/tasks/{taskId}"
+      get: "/v1/get-task"
     };
   };
 }
@@ -33,14 +33,10 @@ message CreateRequest{
 
 message CreateResponse{}
 
-message GetDayScheduleRequest{
-  string date = 1;
-}
+message GetDayScheduleRequest{}
 
 message GetDayScheduleResponse{}
 
-message GetTaskRequest {
-  string task_id = 1;
-}
+message GetTaskRequest {}
 
 message GetTaskResponse{}
