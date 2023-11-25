@@ -1,6 +1,6 @@
 .PHONY: run-virtual-environment
 run-virtual-environment:
-	docker-compose up -d
+	cd deployments && docker-compose up -d
 
 .PHONY: goose-up
 goose-up:

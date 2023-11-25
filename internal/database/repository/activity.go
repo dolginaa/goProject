@@ -15,7 +15,14 @@ func NewActivities(cluster *pgxpool.Pool) *ActivityRepo {
 }
 
 func (r *ActivityRepo) Insert(ctx context.Context, activity *Activity) error {
-
+	commTag, err := r.cluster.Exec(ctx, `INSERT INTO businesses(datetime, priority, deadline, description) VALUES($1, $2, $3, $4)`, activity.DateTime, activity.Priority, activity.Deadline, activity.Description)
+	if err != nil {
+		return err
+	}
+	//поправить ошибку при недобавлении
+	if commTag.RowsAffected() == 0 {
+		return err
+	}
 	return nil
 }
 
