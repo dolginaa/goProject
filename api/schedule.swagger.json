@@ -141,10 +141,34 @@
       "type": "object"
     },
     "scheduleGetDayScheduleResponse": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deadline": {
+          "type": "string"
+        }
+      }
     },
     "scheduleGetTaskResponse": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deadline": {
+          "type": "string"
+        }
+      }
     }
   }
 }

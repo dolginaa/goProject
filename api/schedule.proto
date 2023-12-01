@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "pkg/schedule";
-
 package schedule;
+
+option go_package = "pkg/schedule";
 
 import "google/api/annotations.proto";
 
@@ -35,8 +35,16 @@ message CreateResponse{}
 
 message GetDayScheduleRequest{}
 
-message GetDayScheduleResponse{}
+message GetDayScheduleResponse{
+  string description = 1;
+  int32 priority = 2;
+  string deadline = 3;
+}
 
 message GetTaskRequest {}
 
-message GetTaskResponse{}
+message GetTaskResponse{
+  string description = 1;
+  int32 priority = 2;
+  string deadline = 3;
+}
