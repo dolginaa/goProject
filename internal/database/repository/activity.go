@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -20,7 +21,6 @@ func (r *ActivityRepo) Insert(ctx context.Context, activity *Activity) error {
 	if err != nil {
 		return err
 	}
-	//поправить ошибку при недобавлении
 	if commTag.RowsAffected() == 0 {
 		return err
 	}
@@ -46,7 +46,20 @@ func (r *ActivityRepo) SelectOne(ctx context.Context) (*Activity, error) {
 }
 
 func (r *ActivityRepo) SelectMany(ctx context.Context, date string) (*[]Activity, error) {
-	rows, err := r.cluster.Query(context.Background(), "SELECT id, name FROM users")
+	deadlineRows := r.cluster.QueryRow(ctx, `SELECT COUNT(*) FROM (SELECT * FROM businesses WHERE deadline::DATE = CURRENT_DATE) a`)
+	var ok int32
+	err := deadlineRows.Scan(&ok)
+	if err != nil {
+		return nil, err
+	}
+
+	var rows pgx.Rows
+	if ok == 0 {
+		rows, err = r.cluster.Query(context.Background(), "SELECT description, priority, deadline FROM businesses WHERE priority=(SELECT MAX(priority) FROM businesses) LIMIT 3")
+	} else {
+		rows, err = r.cluster.Query(context.Background(), "SELECT description, priority, deadline FROM businesses WHERE deadline::DATE = CURRENT_DATE")
+	}
+
 	if err != nil {
 		return nil, err
 	}

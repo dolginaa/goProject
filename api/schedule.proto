@@ -36,14 +36,16 @@ message CreateResponse{}
 message GetDayScheduleRequest{}
 
 message GetDayScheduleResponse{
-  string description = 1;
-  int32 priority = 2;
-  string deadline = 3;
+  repeated Task task = 1;
 }
 
 message GetTaskRequest {}
 
 message GetTaskResponse{
+  Task task = 1;
+}
+
+message Task {
   string description = 1;
   int32 priority = 2;
   string deadline = 3;

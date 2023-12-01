@@ -143,19 +143,24 @@
     "scheduleGetDayScheduleResponse": {
       "type": "object",
       "properties": {
-        "description": {
-          "type": "string"
-        },
-        "priority": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "deadline": {
-          "type": "string"
+        "task": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/scheduleTask"
+          }
         }
       }
     },
     "scheduleGetTaskResponse": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/scheduleTask"
+        }
+      }
+    },
+    "scheduleTask": {
       "type": "object",
       "properties": {
         "description": {

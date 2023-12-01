@@ -9,12 +9,6 @@ import (
 	pb "github.com/dolginaa/goProject/pkg/schedule"
 )
 
-type Server struct {
-	Repo repository.ActivitiesRepo
-
-	pb.UnimplementedScheduleServer
-}
-
 func (s *Server) CreateTask(ctx context.Context, req *pb.CreateRequest) (*pb.CreateResponse, error) {
 	if req == nil {
 		return nil, errors.New("received nil request")
@@ -33,7 +27,20 @@ func (s *Server) CreateTask(ctx context.Context, req *pb.CreateRequest) (*pb.Cre
 }
 
 func (s *Server) GetDaySchedule(ctx context.Context, req *pb.GetDayScheduleRequest) (*pb.GetDayScheduleResponse, error) {
-	return nil, nil
+	rows, err := s.Repo.SelectMany(ctx, time.Now().Format("2006-01-02 15:04:05"))
+	if err != nil {
+		return nil, err
+	}
+
+	var result []*pb.Task
+	for _, activity := range *rows {
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, &pb.Task{Description: activity.Description, Priority: int32(activity.Priority), Deadline: activity.Deadline})
+	}
+
+	return &pb.GetDayScheduleResponse{Task: result}, nil
 }
 
 func (s *Server) GetTask(ctx context.Context, req *pb.GetTaskRequest) (*pb.GetTaskResponse, error) {
@@ -41,5 +48,5 @@ func (s *Server) GetTask(ctx context.Context, req *pb.GetTaskRequest) (*pb.GetTa
 	if err != nil {
 		return nil, err
 	}
-	return &pb.GetTaskResponse{Description: row.Description, Priority: int32(row.Priority), Deadline: row.Deadline}, nil
+	return &pb.GetTaskResponse{Task: &pb.Task{Description: row.Description, Priority: int32(row.Priority), Deadline: row.Deadline}}, nil
 }
