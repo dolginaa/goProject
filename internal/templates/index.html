@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Schedule</title>
+    <style>
+
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #sidebar {
+            width: 200px;
+            background-color: #2c3e50; /* Темно-серый фон навигационной панели */
+            padding: 20px;
+            box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.1);
+            border-right: 1px solid #ddd; /* Черта слева от навигационной панели */
+        }
+
+        #sidebar h3 {
+            color: #ecf0f1; /* Белый цвет текста в навигационной панели */
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .deadline-column {
+            width: 150px; /* Установите желаемую ширину в пикселях или процентах */
+        }
+
+        #navigation {
+            margin-bottom: 20px;
+        }
+
+        #navigation button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px; /* Чуть больше отступа между кнопками */
+            background-color: #27ae60; /* Зеленый цвет кнопки "Главная" */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #navigation button:hover {
+            background-color: #219653; /* Цвет кнопки "Главная" при наведении */
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h3>Navigation</h3>
+    <div id="navigation">
+        <button onclick="redirectTo('home.html')">Главная</button>
+    </div>
+</div>
+
+<div id="content">
+
+    <h2>Day Schedule</h2>
+
+    <table id="scheduleTable">
+        <thead>
+        <tr>
+            <th class="deadline-column">Deadline</th>
+            <th class="description-column">Description</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="script.js"></script>
+</div>
+
+<script>
+    function redirectTo(page) {
+        window.location.href = page;
+    }
+</script>
+
+</body>
+</html>

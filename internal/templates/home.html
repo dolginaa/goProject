@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #sidebar {
+            width: 200px;
+            background-color: #2c3e50; /* Темно-зеленый фон */
+            padding: 20px;
+            box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.1);
+            border-right: 1px solid #ddd; /* Черта слева от навигационной панели */
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            color: #ecf0f1; /* Цвет текста в навигационной панели */
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px; /* Чуть больше отступа между кнопками */
+            background-color: #27ae60; /* Темно-зеленый цвет кнопок */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #219653; /* Цвет кнопок при наведении */
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="button"] {
+            background-color: #27ae60; /* Темно-зеленый цвет кнопки */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center; /* Центрирование текста */
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h3>Navigation</h3>
+    <button onclick="redirectTo('getTask.html')">Get Task</button>
+    <button onclick="redirectTo('index.html')">Get Tasks for a Day</button>
+</div>
+
+<div id="content">
+
+    <h2>Create Task</h2>
+
+    <form id="taskForm">
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+
+        <label for="priority">Priority (1-5):</label>
+        <select id="priority" name="priority" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <label for="deadline">Deadline:</label>
+        <input type="datetime-local" id="deadline" name="deadline" required>
+
+        <button type="button" onclick="createTask()">Create Task</button>
+    </form>
+
+    <script>
+        function createTask() {
+            const description = document.getElementById('description').value;
+            const priority = document.getElementById('priority').value;
+            const deadline = document.getElementById('deadline').value;
+
+            const requestData = {
+                description: description,
+                priority: parseInt(priority),
+                deadline: deadline
+            };
+
+            fetch('http://localhost:8081/v1/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Task created successfully!');
+                    // Можете добавить дополнительную логику, например, перенаправление на другую страницу
+                })
+                .catch(error => {
+                    console.error('Error creating task:', error);
+                    alert('Failed to create task. Check the console for details.');
+                });
+        }
+
+        function redirectTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</div>
+
+</body>
+</html>
